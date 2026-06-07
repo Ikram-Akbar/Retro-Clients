@@ -1,0 +1,58 @@
+eslint.config.js
+index.html
+package.json
+README.md
+structure.txt
+vite.config.js
+public/
+src/
+  api/
+    axios.js
+
+  context/
+    AuthContext.jsx
+
+  hooks/
+    useAuth.js
+
+  services/
+    authService.js
+
+  routes/
+    PrivateRoute.jsx
+
+  App.css
+  App.jsx
+  index.css
+  main.jsx
+  assets/
+  components/
+    Button.jsx
+    Card.jsx
+    Hero.jsx
+    SearchBar.jsx
+  data/
+    homeData.js
+  layouts/
+    Main.jsx
+  pages/
+    AboutUs/
+      AboutUs.jsx
+    Auth/
+      Login.jsx
+      Register.jsx
+    BrowseRental/
+      BrowseRental.jsx
+    Cars/
+      Cars.jsx
+    Home/
+      Home.jsx
+    HowItWorks/
+      Works.jsx
+    NotFound/
+      NotFound.jsx
+    Shared/
+      Footer.jsx
+      Header.jsx
+  routes/
+    router.jsx
