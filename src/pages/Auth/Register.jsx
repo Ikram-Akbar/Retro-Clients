@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
 import useAuth from '../../hooks/useAuth';
+import { unwrapPayload } from '../../api/tokenUtils';
+import { getDashboardBasePath } from '../../utils/dashboardRole';
 
 const Register = () => {
   const navigate = useNavigate();
@@ -34,8 +36,12 @@ const Register = () => {
 
     try {
       const name = `${firstName} ${lastName}`.trim();
-      await register({ name, email, password });
-      navigate('/dashboard', { replace: true });
+      const res = await register({ name, email, password });
+      const data = unwrapPayload(res.data);
+      const user = data?.user;
+      const role = user?.role || 'USER';
+      const basePath = getDashboardBasePath(role);
+      navigate(basePath, { replace: true });
     } catch (err) {
       const msg = err?.response?.data?.message || err.message || 'Registration failed';
       setError(msg);

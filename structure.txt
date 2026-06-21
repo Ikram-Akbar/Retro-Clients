@@ -1,0 +1,131 @@
+
+Rentro Client — Project Folder & Architecture
+=============================================
+
+Repository root
+-------------
+- package.json               : npm scripts & dependencies
+- vite.config.js             : Vite config
+- index.html                 : App HTML entry
+- README.md                  : Project documentation
+- .gitignore                 : Git ignore rules
+- .env (or .env.local)       : Environment variables (VITE_API_URL etc.)
+
+Top-level folders
+------------------
+- public/                    : Static assets served by Vite (favicon, static images)
+- src/                       : Application source code (see tree below)
+
+src/ (application source)
+---------------------------
+- App.jsx                    : Root React component (app layout/wrapping)
+- main.jsx                   : App entry that mounts React and RouterProvider
+- index.css / App.css        : Global and app-level styles
+
+- api/
+	- axios.js                 : Configured axios instance (baseURL, interceptors)
+
+- assets/                    : Images, icons, fonts, other static assets
+
+- components/                : Reusable UI components
+	- Button.jsx
+	- Card.jsx
+	- Hero.jsx
+	- SearchBar.jsx
+
+- context/
+	- AuthContext.jsx          : React Context providing auth state (login/register/logout, token persistence)
+
+- data/
+	- homeData.js              : Static data used by Home page
+
+- hooks/
+	- useAuth.js               : Custom hook wrapping AuthContext convenience helpers
+
+- layouts/
+	- Main.jsx                 : App layout component (header/footer, outlet)
+
+- pages/                     : Route view components grouped by feature
+	- AboutUs/
+		- AboutUs.jsx
+	- Auth/
+		- Login.jsx
+		- Register.jsx
+	- BrowseRental/
+		- BrowseRental.jsx
+	- Cars/
+		- Cars.jsx
+	- Home/
+		- Home.jsx
+	- HowItWorks/
+		- Works.jsx
+	- NotFound/
+		- NotFound.jsx
+	- Shared/
+		- Header.jsx             : Navigation, shows auth identity chip and logout
+		- Footer.jsx
+
+- routes/
+	- PrivateRoute.jsx         : Route guard that checks auth state and loading
+	- router.jsx               : App route definitions, includes /dashboard protected route
+
+- services/
+	- authService.js           : API wrappers for /auth endpoints (login, register, getProfile, refresh)
+
+Architecture overview
+---------------------
+- Framework: React (Vite). Fast refresh in development via Vite.
+- Routing: React Router using `RouterProvider` configured in `src/routes/router.jsx`.
+- State & Auth:
+	- `AuthContext.jsx` holds authentication state (user, tokens) and exposes actions.
+	- Tokens and user info persist to `localStorage` (keys like `authTokens`, `authUser`).
+	- `PrivateRoute.jsx` protects routes and prevents flash-of-unauthenticated content while loading.
+
+- API layer:
+	- `src/api/axios.js` is the centralized axios instance. It attaches Authorization headers, handles refresh token flow, and centralizes baseURL (`VITE_API_URL`).
+	- `src/services/authService.js` wraps HTTP calls (login, register, profile).
+
+- UI structure:
+	- `pages/` holds route views; `components/` holds small reusable components; `layouts/Main.jsx` composes header/footer and outlet.
+	- Header displays user identity (avatar or initials) when authenticated.
+
+- Styling:
+	- Likely uses Tailwind (or plain CSS). Global styles are in `index.css` and `App.css`.
+
+Auth flow (high level)
+----------------------
+1. User submits login form (`Login.jsx`) → calls `authService.login`.
+2. Response returns tokens (access/refresh) and possibly user payload. Tokens are normalized and saved in `AuthContext`.
+3. `axios` default Authorization header is set to `Bearer <accessToken>` for subsequent requests.
+4. `AuthContext` may call `/auth/me` (getProfile) to fetch current user details.
+5. `PrivateRoute` checks `AuthContext` state; if loading, it shows a loading indicator; if unauthenticated, it navigates to `/login`.
+6. Axios interceptor handles 401 responses and attempts refresh using stored refresh token.
+
+Build & run
+-----------
+- Install dependencies:
+	npm install
+- Run development server:
+	npm run dev
+- Build production bundle:
+	npm run build
+- Lint (if configured):
+	npm run lint
+
+Key files to inspect for changes or debugging
+--------------------------------------------
+- `src/context/AuthContext.jsx` — central auth logic and persistence
+- `src/api/axios.js` — HTTP client, interceptors, refresh logic
+- `src/routes/PrivateRoute.jsx` — route protection and loading handling
+- `src/pages/Shared/Header.jsx` — nav / identity display
+- `src/services/authService.js` — API endpoints for auth
+
+Notes & recommendations
+-----------------------
+- Keep backend contract consistent: ensure frontend unwraps nested `res.data.data` if backend wraps payloads.
+- Prefer storing minimal user info in `localStorage` and refresh from `/auth/me` on startup when possible.
+- Consider centralizing token key names in one constant to avoid mismatches.
+- Add `.env.example` with `VITE_API_URL` for developer onboarding.
+
+End of file.
+

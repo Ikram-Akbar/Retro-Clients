@@ -1,1 +1,347 @@
 @import "tailwindcss";
+@plugin "daisyui";
+
+:root {
+  --color-primary: #7c3aed;
+  /* Violet 600 */
+  --color-primary-hover: #6d28d9;
+  /* Violet 700 */
+  --color-secondary: #0F172A;
+  --color-accent: #a78bfa;
+  /* Violet 400 */
+  --color-bg-page: #F8FAFC;
+  --color-bg-page-alt: #F1F5F9;
+  --color-surface-card: #FFFFFF;
+  --color-text-title: #0F172A;
+  --color-text-body: #64748B;
+  --color-border-card: #E2E8F0;
+
+  --radius-input: 12px;
+  --radius-btn: 12px;
+  --radius-card: 20px;
+  --radius-modal: 24px;
+}
+
+/* System preferences dark mode */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-bg-page: #0F172A;
+    --color-bg-page-alt: #111827;
+    --color-surface-card: #1E293B;
+    --color-text-title: #F8FAFC;
+    --color-text-body: #94A3B8;
+    --color-border-card: #334155;
+  }
+}
+
+/* Explicit class-based dark mode overrides */
+html.dark {
+  --color-bg-page: #0F172A;
+  --color-bg-page-alt: #111827;
+  --color-surface-card: #1E293B;
+  --color-text-title: #F8FAFC;
+  --color-text-body: #94A3B8;
+  --color-border-card: #334155;
+}
+
+@theme {
+  /* Set fonts to Inter */
+  --font-sans: "Inter", system-ui, -apple-system, sans-serif;
+  --font-display: "Inter", system-ui, -apple-system, sans-serif;
+
+  /* Redefine base white/slate colors to resolve dynamically in light/dark modes */
+  --color-white: var(--color-surface-card);
+  --color-slate-50: var(--color-bg-page);
+  --color-slate-100: var(--color-bg-page-alt);
+  --color-slate-200: var(--color-border-card);
+
+  --color-slate-950: var(--color-text-title);
+  --color-slate-900: var(--color-text-title);
+  --color-slate-800: var(--color-text-title);
+  --color-slate-700: var(--color-text-body);
+  --color-slate-600: var(--color-text-body);
+  --color-slate-550: var(--color-text-body);
+  --color-slate-500: var(--color-text-body);
+  --color-slate-455: var(--color-text-body);
+  --color-slate-450: var(--color-text-body);
+  --color-slate-400: var(--color-text-body);
+
+  /* Brand Semantic Overrides */
+  --color-brand-primary: var(--color-primary);
+  --color-brand-primary-hover: var(--color-primary-hover);
+  --color-brand-secondary: var(--color-secondary);
+  --color-brand-accent: var(--color-accent);
+
+  /* Unified Violet Color Mappings for Dashboards & Auth views */
+  --color-violet-50: #f5f3ff;
+  --color-violet-100: #ede9fe;
+  --color-violet-200: #ddd6fe;
+  --color-violet-300: #c4b5fd;
+  --color-violet-400: #a78bfa;
+  --color-violet-500: #8b5cf6;
+  --color-violet-650: #7c3aed;
+  --color-violet-600: #7c3aed;
+  --color-violet-700: #6d28d9;
+  --color-violet-800: #5b21b6;
+  --color-violet-900: #4c1d95;
+  --color-violet-950: #2e1065;
+
+  --color-indigo-50: #e0e7ff;
+  --color-indigo-100: #c7d2fe;
+  --color-indigo-200: #a5b4fc;
+  --color-indigo-300: #818cf8;
+  --color-indigo-400: #6366f1;
+  --color-indigo-500: #4f46e5;
+  --color-indigo-600: #4338ca;
+  --color-indigo-700: #3730a3;
+  --color-indigo-800: #312e81;
+  --color-indigo-900: #1e1b4b;
+  --color-indigo-950: #0f0e26;
+
+  /* Blue maps to Violet for components calling blue classes */
+  --color-blue-50: #f5f3ff;
+  --color-blue-100: #ede9fe;
+  --color-blue-200: #ddd6fe;
+  --color-blue-300: #c4b5fd;
+  --color-blue-400: #a78bfa;
+  --color-blue-500: #8b5cf6;
+  --color-blue-600: #7c3aed;
+  --color-blue-750: #7c3aed;
+  --color-blue-700: #6d28d9;
+  --color-blue-800: #5b21b6;
+  --color-blue-900: #4c1d95;
+  --color-blue-950: #2e1065;
+
+  /* Primary Action Colors (Mapped from Amber to Violet) */
+  --color-amber-50: #f5f3ff;
+  --color-amber-100: #ede9fe;
+  --color-amber-200: #ddd6fe;
+  --color-amber-300: #c4b5fd;
+  --color-amber-400: #a78bfa;
+  --color-amber-450: #6d28d9;
+  --color-amber-500: #7c3aed;
+  --color-amber-600: #6d28d9;
+
+  /* Standard warnings are mapped back to actual Warning/Yellow */
+  --color-amber-700: #d97706;
+  --color-amber-800: #b45309;
+
+  /* Border Radiuses */
+  --radius-xl: var(--radius-input);
+  --radius-2xl: var(--radius-card);
+  --radius-3xl: var(--radius-modal);
+}
+
+@plugin "daisyui" {
+  themes: light --default, dark;
+}
+
+@plugin "daisyui/theme" {
+  name: "light";
+  default: true;
+  --color-primary: #7c3aed;
+  /* Custom brand violet */
+  --color-secondary: #0F172A;
+  /* Slate 900 */
+  --color-accent: #a78bfa;
+  /* Violet 400 */
+  --color-neutral: #1e293b;
+  --color-base-100: #ffffff;
+}
+
+@plugin "daisyui/theme" {
+  name: "dark";
+  prefersdark: true;
+  --color-primary: #7c3aed;
+  --color-secondary: #0F172A;
+  --color-accent: #a78bfa;
+  --color-neutral: #1e293b;
+  --color-base-100: #1E293B;
+}
+
+@layer base {
+  body {
+    background-color: var(--color-bg-page);
+    color: var(--color-text-title);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    transition: background-color 0.2s ease, color 0.2s ease;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-display);
+    color: var(--color-text-title);
+    font-weight: 800;
+  }
+
+  /* Premium Table overrides */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+  }
+
+  th {
+    background-color: var(--color-bg-page-alt) !important;
+    color: var(--color-text-title) !important;
+    font-weight: 700 !important;
+    text-transform: uppercase;
+    font-size: 0.75rem !important;
+    letter-spacing: 0.05em;
+    padding: 1rem !important;
+    border-bottom: 2px solid var(--color-border-card) !important;
+  }
+
+  td {
+    padding: 1rem !important;
+    border-bottom: 1px solid var(--color-border-card) !important;
+    color: var(--color-text-body) !important;
+    font-size: 0.875rem !important;
+  }
+
+  tr:hover td {
+    background-color: var(--color-bg-page-alt) !important;
+    color: var(--color-text-title) !important;
+  }
+
+  /* Universal inputs border radius (12px) and focus ring style overrides */
+  input,
+  select,
+  textarea {
+    border-radius: var(--radius-input) !important;
+    background-color: var(--color-surface-card);
+    border: 1px solid var(--color-border-card);
+    color: var(--color-text-title);
+    transition: all 0.2s ease;
+  }
+
+  input:focus,
+  select:focus,
+  textarea:focus {
+    outline: none;
+    border-color: var(--color-primary) !important;
+    box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.2) !important;
+  }
+
+  /* Universal buttons border radius (12px) */
+  button,
+  .btn {
+    border-radius: var(--radius-btn) !important;
+    transition: all 0.2s ease;
+  }
+
+  /* Disabled cursor indicators */
+  button:disabled,
+  input:disabled,
+  select:disabled,
+  textarea:disabled {
+    cursor: not-allowed !important;
+    opacity: 0.6 !important;
+  }
+
+  /* Universal cards border radius (20px) */
+  .card,
+  [class*="card"] {
+    border-radius: var(--radius-card) !important;
+  }
+
+  /* Modals border radius (24px) */
+  .modal-box,
+  [class*="modal-box"] {
+    border-radius: var(--radius-modal) !important;
+    background-color: var(--color-surface-card);
+    color: var(--color-text-title);
+  }
+
+  /* Custom modern scrollbars */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: var(--color-bg-page-alt);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-text-body);
+    opacity: 0.3;
+    border-radius: 9999px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--color-primary);
+  }
+
+  /* Ensure backgrounds of explicit slate-900 and slate-950 layouts remain dark */
+  .bg-slate-900 {
+    background-color: #0f172a !important;
+  }
+
+  .bg-slate-950 {
+    background-color: #020617 !important;
+  }
+}
+
+@layer utilities {
+
+  /* Premium standard Card layout with hover lift */
+  .card-premium {
+    background-color: var(--color-surface-card);
+    border: 1px solid var(--color-border-card);
+    border-radius: var(--radius-card);
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05);
+    padding: 1.5rem;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .card-premium:hover {
+    box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.08), 0 8px 10px -6px rgba(15, 23, 42, 0.03);
+    transform: translateY(-4px);
+  }
+
+  /* Standard premium buttons animations */
+  .btn-premium-primary {
+    background-color: var(--color-primary);
+    color: #ffffff;
+    /* Crisp white text on Teal background */
+    font-weight: 700;
+    font-size: 0.875rem;
+    /* text-sm */
+    text-transform: uppercase;
+    padding: 0.75rem 1.25rem;
+    border-radius: var(--radius-btn);
+    transition: all 0.2s ease;
+    cursor: pointer;
+    border: none;
+  }
+
+  .btn-premium-primary:hover {
+    background-color: var(--color-primary-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 10px 15px -3px rgba(13, 148, 136, 0.25);
+  }
+
+  .btn-premium-secondary {
+    background-color: var(--color-surface-card);
+    border: 1px solid var(--color-border-card);
+    color: var(--color-text-title);
+    font-weight: 600;
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    padding: 0.75rem 1.25rem;
+    border-radius: var(--radius-btn);
+    transition: all 0.2s ease;
+    cursor: pointer;
+  }
+
+  .btn-premium-secondary:hover {
+    background-color: var(--color-bg-page-alt);
+    border-color: var(--color-text-body);
+  }
+}

@@ -1,6 +1,8 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 import useAuth from '../../hooks/useAuth';
+import { unwrapPayload } from '../../api/tokenUtils';
+import { getDashboardBasePath } from '../../utils/dashboardRole';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -13,8 +15,12 @@ const Login = () => {
     e.preventDefault();
     setError(null);
     try {
-      await login({ email, password });
-      navigate('/dashboard', { replace: true });
+      const res = await login({ email, password });
+      const data = unwrapPayload(res.data);
+      const user = data?.user;
+      const role = user?.role || 'USER';
+      const basePath = getDashboardBasePath(role);
+      navigate(basePath, { replace: true });
     } catch (err) {
       const msg = err?.response?.data?.message || err.message || 'Login failed';
       setError(msg);
@@ -74,9 +80,9 @@ const Login = () => {
                 Remember me
               </label>
 
-              <a href="/" className="font-medium text-indigo-700 hover:text-indigo-900">
+              <Link to="/forgot-password" className="font-medium text-indigo-700 hover:text-indigo-900">
                 Forgot password?
-              </a>
+              </Link>
             </div>
 
             <button
@@ -90,9 +96,9 @@ const Login = () => {
 
           <p className="mt-6 text-center text-sm text-slate-600">
             Don’t have an account?{' '}
-            <a href="/register" className="font-semibold text-indigo-700 hover:text-indigo-900">
+            <Link to="/register" className="font-semibold text-indigo-700 hover:text-indigo-900">
               Register
-            </a>
+            </Link>
           </p>
         </div>
       </div>
